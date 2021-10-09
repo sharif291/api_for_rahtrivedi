@@ -1,6 +1,6 @@
 const express = require("express"); //Line 1
 const app = express(); //Line 2
-const fs= require('fs')
+const fs = require("fs");
 app.use(
   express.urlencoded({
     extended: true,
@@ -8,11 +8,6 @@ app.use(
 );
 
 app.use(express.json());
-
-const port = process.env.PORT || 5000; //Line 3
-
-// This displays message that the server running and listening to specified port
-app.listen(port, () => console.log(`Listening on port ${port}`)); //Line 6
 
 // create a GET route
 app.get("/:account", (req, res) => {
@@ -33,14 +28,18 @@ app.get("/:account", (req, res) => {
 });
 app.get("/:account/:ticket", (req, res) => {
   let AccountNO = req.params.account;
-  let Ticket = req.params.ticket;
+  let ticket = req.params.ticket;
+
   if (fs.existsSync(`./data/${AccountNO}.json`)) {
     try {
       // Get existing data
       let prevdata = fs.readFileSync(`./data/${AccountNO}.json`);
       // make existing data json to object
       let data = JSON.parse(prevdata);
-      let result = data.map((x) => x.Ticket === Ticket);
+      console.log(ticket)
+      console.log(data)
+      let result = data.filter((x) => x.ticket == ticket);
+      console.log(result);
       res.send(302, { status: "succesfull", data: result });
     } catch (err) {
       res.send(400, { status: "Failed", data: err });
@@ -121,3 +120,8 @@ app.post("/add", (req, res) => {
     }
   }
 });
+
+const port = process.env.PORT || 5000; //Line 3
+
+// This displays message that the server running and listening to specified port
+app.listen(port, "0.0.0.0", () => console.log(`Listening on port ${port}`)); //Line 6
