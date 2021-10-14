@@ -117,4 +117,4 @@ app.post("/add", (req, res) => {
 const port = process.env.PORT || 5000; //Line 3
 
 // This displays message that the server running and listening to specified port
-app.listen(port, "0.0.0.0", () => console.log(`Listening on port ${port}`)); //Line 6
+app.listen(port, () => console.log(`Listening on port ${port}`)); //Line 6
