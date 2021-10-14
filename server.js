@@ -36,10 +36,8 @@ app.get("/:account/:ticket", (req, res) => {
       let prevdata = fs.readFileSync(`./data/${AccountNO}.json`);
       // make existing data json to object
       let data = JSON.parse(prevdata);
-      console.log(ticket)
-      console.log(data)
+      data = data.Tickets;
       let result = data.filter((x) => x.ticket == ticket);
-      console.log(result);
       res.send(302, { status: "succesfull", data: result });
     } catch (err) {
       res.send(400, { status: "Failed", data: err });
@@ -50,26 +48,13 @@ app.get("/:account/:ticket", (req, res) => {
 });
 
 app.post("/add", (req, res) => {
-  // const fs = require("fs");
   // get requested data
   let requested_data = {
     AccountNO: req.body.AccountNO || "",
-    magic: req.body.magic || "",
-    _Comment: req.body._Comment || "",
-    digits: req.body.digits || "",
-    open_price: req.body.open_price || "",
-    open_time: req.body.open_time || "",
-    stop_loss: req.body.stop_loss || "",
-    symbol: req.body.symbol || "",
-    take_profit: req.body.take_profit || "",
-    ticket: req.body.ticket || "",
-    type: req.body.type || "",
-    volume: req.body.volume || "",
-    volume_balance: req.body.volume_balance || "",
-    volume_equity: req.body.volume_equity || "",
+    Tickets: req.body.Tickets || "",
   };
-  if (requested_data.AccountNO === "" || requested_data.ticket === "") {
-    res.send(400, { status: "Failed", data: "invalid Account No or Ticket" });
+  if (requested_data.AccountNO === "") {
+    res.send(400, { status: "Failed", data: "invalid Account No" });
   } else {
     try {
       // IF FILE EXISTS
@@ -78,40 +63,48 @@ app.post("/add", (req, res) => {
         let prevdata = fs.readFileSync(
           `./data/${requested_data.AccountNO}.json`
         );
+
         // make existing data json to object
-        let data = JSON.parse(prevdata);
+        var data = JSON.parse(prevdata);
+        data = data.Tickets;
+        requested_data.Tickets.map((single_ticket) => {
+          //Find index of specific object using findIndex method.
+          objIndex = data.findIndex((x) => x.ticket == single_ticket.ticket);
+          console.log("check " + objIndex);
+          // IF DATA NOT in file
+          if (objIndex == -1) {
+            // Add new object to the file
+            data.push(single_ticket);
+          } else {
+            //Update object's name property.
+            data[objIndex].magic = single_ticket.magic;
+            data[objIndex]._Comment = single_ticket._Comment;
+            data[objIndex].digits = single_ticket.digits;
+            data[objIndex].open_price = single_ticket.open_price;
+            data[objIndex].open_time = single_ticket.open_time;
+            data[objIndex].stop_loss = single_ticket.stop_loss;
+            data[objIndex].symbol = single_ticket.symbol;
+            data[objIndex].take_profit = single_ticket.take_profit;
+            data[objIndex].ticket = single_ticket.ticket;
+            data[objIndex].type = single_ticket.type;
+            data[objIndex].volume = single_ticket.volume;
+            data[objIndex].volume_balance = single_ticket.volume_balance;
+            data[objIndex].volume_equity = single_ticket.volume_equity;
+          }
+        });
 
-        //Find index of specific object using findIndex method.
-        objIndex = data.findIndex((x) => x.ticket == requested_data.ticket);
-        // IF DATA ALREADY IN FILE or NOT
-        if (objIndex == -1) {
-          // Add new object to the file
-          data.push(requested_data);
-        } else {
-          //Update object's name property.
-          data[objIndex].AccountNO = requested_data.AccountNO;
-          data[objIndex].magic = requested_data.magic;
-          data[objIndex]._Comment = requested_data._Comment;
-          data[objIndex].digits = requested_data.digits;
-          data[objIndex].open_price = requested_data.open_price;
-          data[objIndex].open_time = requested_data.open_time;
-          data[objIndex].stop_loss = requested_data.stop_loss;
-          data[objIndex].symbol = requested_data.symbol;
-          data[objIndex].take_profit = requested_data.take_profit;
-          data[objIndex].ticket = requested_data.ticket;
-          data[objIndex].type = requested_data.type;
-          data[objIndex].volume = requested_data.volume;
-          data[objIndex].volume_balance = requested_data.volume_balance;
-          data[objIndex].volume_equity = requested_data.volume_equity;
-        }
+        const newData = {
+          AccountNo: requested_data.AccountNO,
+          Tickets: data,
+        };
 
-        let json_data = JSON.stringify(data);
+        let json_data = JSON.stringify(newData);
         fs.writeFileSync(`./data/${requested_data.AccountNO}.json`, json_data);
         res.send(201, { status: "succesfull", data: requested_data });
       }
       // IF FILE NOT EXISTS
       else {
-        let json_data = JSON.stringify([requested_data]);
+        let json_data = JSON.stringify(requested_data);
         fs.writeFileSync(`./data/${requested_data.AccountNO}.json`, json_data);
         res.send(201, { status: "succesfull", data: requested_data });
       }

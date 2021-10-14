@@ -1,0 +1,65 @@
+{
+    "AccountNo": 123456,
+    "Tickets": [
+        {
+            "magic": -2147483648,
+            "_Comment": " ",
+            "digits": 65,
+            "open_price": 1.1743,
+            "open_time": 1,
+            "stop_loss": -2147483648,
+            "symbol": "EURUSD",
+            "take_profit": -2147483648,
+            "ticket": 539388,
+            "type": 22,
+            "volume": 0.01,
+            "volume_balance": 0.95691,
+            "volume_equity": 0.95678
+        },
+        {
+            "magic": -2147483648,
+            "_Comment": " ",
+            "digits": 65,
+            "open_price": 1.1743,
+            "open_time": 1633720947,
+            "stop_loss": -2147483648,
+            "symbol": "EURUSD",
+            "take_profit": -2147483648,
+            "ticket": 539387,
+            "type": 22,
+            "volume": 0.01,
+            "volume_balance": 0.95691,
+            "volume_equity": 0.95678
+        },
+        {
+            "magic": -2147483648,
+            "_Comment": " ",
+            "digits": 65,
+            "open_price": 1.1743,
+            "open_time": 1633720947,
+            "stop_loss": -2147483648,
+            "symbol": "EURUSD",
+            "take_profit": -2147483648,
+            "ticket": 539391,
+            "type": 22,
+            "volume": 0.01,
+            "volume_balance": 0.95691,
+            "volume_equity": 0.95678
+        },
+        {
+            "magic": -2147483648,
+            "_Comment": " ",
+            "digits": 65,
+            "open_price": 1.1743,
+            "open_time": 1633720947,
+            "stop_loss": -2147483648,
+            "symbol": "EURUSD",
+            "take_profit": -2147483648,
+            "ticket": 539390,
+            "type": 22,
+            "volume": 0.01,
+            "volume_balance": 0.95691,
+            "volume_equity": 0.95678
+        }
+    ]
+}
